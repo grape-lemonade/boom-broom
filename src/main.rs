@@ -7,22 +7,21 @@ use crate::toolbox::Toolbox;
 use once_cell::sync::{Lazy, OnceCell};
 use std::sync::mpsc;
 
-static TOOLBOX: OnceCell<Toolbox> = OnceCell::new();
-const MESSAGER: (mpsc::Sender<u32>, mpsc::Receiver<u32>) = mpsc::channel();
+const TOOLBOX: OnceCell<Toolbox> = OnceCell::new();
 
 fn launch() {
     // Launches the game, initializing the window and loading the sprites,
-    let (tx, rx) = MESSAGER;
-
-    todo!();
+    let (tx, rx): (mpsc::Sender<u32>, mpsc::Receiver<u32>) = mpsc::channel();
+    TOOLBOX.set(Toolbox::new(tx.clone()));
+    game_loop(rx);
 }
 
-fn game_loop() {
+fn game_loop(rec: mpsc::Receiver<u32>) {
     // The actual main game loop
 
     let mut res = true;
 
-    while (res) {
+    while res {
         // debug ways of dropping out of game loop, remove later
         match TOOLBOX.get().unwrap().game_state.get_play_status() {
             PlayStatus::WIN => res = false,
@@ -41,6 +40,7 @@ fn game_loop() {
         render();
 
         // Post-frame
+        todo!();
     }
 }
 
