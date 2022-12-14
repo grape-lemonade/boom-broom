@@ -3,15 +3,11 @@ mod tile;
 mod toolbox;
 
 use crate::gamestate::*;
-use crate::toolbox::Toolbox;
+use crate::toolbox::{EventCode, Toolbox};
 use once_cell::sync::{Lazy, OnceCell};
 use std::sync::mpsc;
 
 const TOOLBOX: OnceCell<Toolbox> = OnceCell::new();
-
-enum EventCode {
-    EXAMPLE,
-}
 
 fn launch() {
     // Launches the game, initializing the window and loading the sprites,
