@@ -1,4 +1,4 @@
-use crate::tile::{Tile};
+use crate::tile::Tile;
 
 // Game State
 pub struct GameState {
@@ -16,7 +16,7 @@ impl GameState {
         todo!();
     }
 
-    pub fn get_tile(&self, x: u32, y: u32) -> &Tile {
+    pub fn get_tile(&self, x: u32, y: u32) -> Option<&Tile> {
         todo!();
     }
 
@@ -26,8 +26,11 @@ impl GameState {
     pub fn set_play_status(mut self, new: PlayStatus) {
         self.play_status = new;
     }
-}
 
+    pub fn new() -> GameState {
+        todo!();
+    }
+}
 
 pub enum PlayStatus {
     WIN,

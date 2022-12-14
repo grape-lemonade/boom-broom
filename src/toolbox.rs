@@ -1,5 +1,13 @@
-use crate::gamestate::{GameState};
+use crate::gamestate::GameState;
 
-struct Toolbox { 
+pub struct Toolbox {
     pub game_state: GameState,
+}
+
+impl Toolbox {
+    pub fn new() -> Toolbox {
+        Toolbox {
+            game_state: GameState::new(),
+        }
+    }
 }
