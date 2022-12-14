@@ -3,7 +3,7 @@ mod tile;
 mod toolbox;
 
 use crate::gamestate::*;
-use crate::toolbox::Toolbox;
+use crate::toolbox::{EventCode, Toolbox};
 use once_cell::sync::{Lazy, OnceCell};
 use std::sync::mpsc;
 
@@ -11,12 +11,12 @@ const TOOLBOX: OnceCell<Toolbox> = OnceCell::new();
 
 fn launch() {
     // Launches the game, initializing the window and loading the sprites,
-    let (tx, rx): (mpsc::Sender<u32>, mpsc::Receiver<u32>) = mpsc::channel();
+    let (tx, rx): (mpsc::Sender<EventCode>, mpsc::Receiver<EventCode>) = mpsc::channel();
     TOOLBOX.set(Toolbox::new(tx.clone()));
     game_loop(rx);
 }
 
-fn game_loop(rec: mpsc::Receiver<u32>) {
+fn game_loop(rec: mpsc::Receiver<EventCode>) {
     // The actual main game loop
 
     let mut res = true;
