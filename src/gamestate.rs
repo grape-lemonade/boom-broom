@@ -1,6 +1,7 @@
 use crate::tile::Tile;
 
 // Game State
+#[derive(Debug)]
 pub struct GameState {
     play_status: PlayStatus,
 
@@ -28,10 +29,13 @@ impl GameState {
     }
 
     pub fn new() -> GameState {
-        todo!();
+        GameState {
+            play_status: PlayStatus::PLAYING,
+            tiles: Vec::new(),
+        }
     }
 }
-
+#[derive(Debug)]
 pub enum PlayStatus {
     WIN,
     LOSS,

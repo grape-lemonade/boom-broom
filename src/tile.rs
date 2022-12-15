@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub struct Tile {
     state: TileState,
     pos: (u32, u32), //0 is x, 1 is y
@@ -44,7 +45,7 @@ impl Tile {
         todo!();
     }
 }
-
+#[derive(Debug)]
 pub enum TileState {
     REVEALED,
     HIDDEN,
