@@ -64,6 +64,10 @@ fn update() {
     // The game loop, should process all computation needed between frames
 }
 
+fn surround_coords(x: &i32, y: &i32) -> [i32; 8] {
+    // make this give the surrounding 8 coords of a coord
+}
+
 fn render(tool_box: &Toolbox) {
     // Draw all game objects based on GameState, run after update()
 }
