@@ -2,12 +2,14 @@
 pub struct Tile {
     state: TileState,
     pos: (u32, u32), //0 is x, 1 is y
+    tile_type: TileType,
 }
 impl Tile {
     pub fn new(ipos: (u32, u32)) -> Tile {
         Tile {
             state: TileState::HIDDEN,
             pos: ipos,
+            tile_type: TileType::CLEAR,
         }
     }
 
@@ -51,4 +53,9 @@ pub enum TileState {
     HIDDEN,
     FLAGGED,
     EXPLODED,
+}
+#[derive(Debug)]
+pub enum TileType {
+    CLEAR,
+    BOMB,
 }

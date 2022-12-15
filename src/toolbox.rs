@@ -15,7 +15,7 @@ pub enum EventCode {
 impl Toolbox {
     pub fn new(tx: mpsc::Sender<EventCode>) -> Toolbox {
         Toolbox {
-            game_state: GameState::new(),
+            game_state: GameState::new(None, None),
             sender: tx,
         }
     }
