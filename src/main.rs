@@ -54,7 +54,7 @@ fn game_loop(tool_box: Toolbox, rec: mpsc::Receiver<EventCode>) {
 
         // Post-update, pre-render
 
-        render(tool_box);
+        render(&tool_box);
 
         // Post-frame
     }
@@ -64,7 +64,7 @@ fn update() {
     // The game loop, should process all computation needed between frames
 }
 
-fn render(tool_box: Toolbox) {
+fn render(tool_box: &Toolbox) {
     // Draw all game objects based on GameState, run after update()
 }
 

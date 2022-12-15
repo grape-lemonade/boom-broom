@@ -1,11 +1,21 @@
+use rstar::{RTreeObject, AABB};
 #[derive(Debug)]
 pub struct Tile {
     state: TileState,
-    pos: (u32, u32), //0 is x, 1 is y
+    pos: (i32, i32), //0 is x, 1 is y
     tile_type: TileType,
 }
+
+impl RTreeObject for Tile {
+    type Envelope = AABB<[i32; 2]>;
+
+    fn envelope(&self) -> Self::Envelope {
+        AABB::from_point([self.pos.0, self.pos.1])
+    }
+}
+
 impl Tile {
-    pub fn new(ipos: (u32, u32)) -> Tile {
+    pub fn new(ipos: (i32, i32)) -> Tile {
         Tile {
             state: TileState::HIDDEN,
             pos: ipos,
@@ -13,7 +23,7 @@ impl Tile {
         }
     }
 
-    pub fn get_location(&self) -> &(u32, u32) {
+    pub fn get_location(&self) -> &(i32, i32) {
         &self.pos
     }
 

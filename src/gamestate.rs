@@ -1,26 +1,28 @@
 use crate::tile::Tile;
-use std::collections::HashMap;
+use rstar::{RTree, AABB};
 
 // Game State
 #[derive(Debug)]
 pub struct GameState {
     play_status: PlayStatus,
-    mine_count: u32,
-    dims: (u32, u32),
-    tiles: HashMap<(u32, u32), Tile>,
+    mine_count: i32,
+    dims: (i32, i32),
+    tiles: RTree<Tile>,
 }
 
 impl GameState {
-    pub fn get_flag_count(&self) -> u32 {
+    pub fn get_flag_count(&self) -> i32 {
         todo!();
     }
 
-    pub fn get_mine_count(&self) -> u32 {
+    pub fn get_mine_count(&self) -> i32 {
         self.mine_count
     }
 
-    pub fn get_tile(&self, x: u32, y: u32) -> Option<&Tile> {
-        self.tiles.get(&(x, y))
+    pub fn get_tile(&self, x: i32, y: i32) -> Option<&Tile> {
+        self.tiles
+            .locate_in_envelope(&AABB::from_point([x, y]))
+            .next()
     }
 
     pub fn get_play_status(&self) -> &PlayStatus {
@@ -30,19 +32,21 @@ impl GameState {
         self.play_status = new;
     }
 
-    pub fn new(dims: Option<(u32, u32)>, num_of_mines: Option<u32>) -> GameState {
+    pub fn new(dims: Option<(i32, i32)>, num_of_mines: Option<i32>) -> GameState {
         let mut new = GameState {
             play_status: PlayStatus::PLAYING,
             mine_count: num_of_mines.unwrap_or_else(|| 50),
             dims: dims.unwrap_or_else(|| (25, 16)),
-            tiles: HashMap::new(),
+            tiles: RTree::new(),
         };
 
         for pos_x in (0..new.dims.0) {
             for pos_y in (0..new.dims.1) {
-                new.tiles.insert((pos_x, pos_y), Tile::new((pos_x, pos_y)));
+                new.tiles.insert(Tile::new((pos_x, pos_y)));
             }
         }
+
+        println!("{:?}", new);
 
         new
     }
