@@ -12,10 +12,6 @@ fn launch() {
     let (tx, rx): (mpsc::Sender<EventCode>, mpsc::Receiver<EventCode>) = mpsc::channel();
     let mut TOOLBOX = Toolbox::new(tx.clone());
 
-    tx.send(EventCode::EXAMPLE);
-    tx.send(EventCode::EXAMPLE);
-    tx.send(EventCode::EXAMPLE);
-
     game_loop(TOOLBOX, rx);
 }
 
@@ -26,7 +22,7 @@ fn game_loop(tool_box: Toolbox, rec: mpsc::Receiver<EventCode>) {
 
     while res {
         // debug ways of dropping out of game loop, remove later
-        match tool_box.game_state.get_play_status() {
+        match &tool_box.game_state.get_play_status() {
             PlayStatus::WIN => res = false,
             PlayStatus::PLAYING => res = true,
             PlayStatus::LOSS => res = false,
@@ -58,7 +54,7 @@ fn game_loop(tool_box: Toolbox, rec: mpsc::Receiver<EventCode>) {
 
         // Post-update, pre-render
 
-        render();
+        render(tool_box);
 
         // Post-frame
     }
@@ -68,7 +64,7 @@ fn update() {
     // The game loop, should process all computation needed between frames
 }
 
-fn render() {
+fn render(tool_box: Toolbox) {
     // Draw all game objects based on GameState, run after update()
 }
 
