@@ -40,13 +40,18 @@ impl GameState {
             tiles: RTree::new(),
         };
 
+        println!("generating tiles...");
+        let mut temp: Vec<Tile> = Vec::new();
         for pos_x in (0..new.dims.0) {
             for pos_y in (0..new.dims.1) {
-                new.tiles.insert(Tile::new((pos_x, pos_y)));
+                temp.push(Tile::new((pos_x, pos_y)));
             }
         }
+        println!("packing tree...");
+        new.tiles = RTree::bulk_load(temp);
+        println!("done loading rtree");
 
-        println!("{:?}", new);
+        //println!("{:?}", new);
 
         new
     }
