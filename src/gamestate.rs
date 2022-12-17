@@ -19,6 +19,10 @@ impl GameState {
         self.mine_count
     }
 
+    pub fn get_dims(&self) -> (i32, i32) {
+        self.dims
+    }
+
     pub fn get_tile(&self, x: i32, y: i32) -> Option<&Tile> {
         self.tiles
             .locate_in_envelope(&AABB::from_point([x, y]))

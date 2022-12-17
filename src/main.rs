@@ -3,6 +3,7 @@ mod tile;
 mod toolbox;
 
 use crate::gamestate::*;
+use crate::tile::{Tile, TileState};
 use crate::toolbox::{EventCode, Toolbox};
 use once_cell::sync::{Lazy, OnceCell};
 use std::sync::mpsc;
@@ -66,6 +67,23 @@ fn update() {
 
 fn render(tool_box: &Toolbox) {
     // Draw all game objects based on GameState, run after update()
+    let (dim_x, dim_y) = tool_box.game_state.get_dims();
+
+    println!("---------------");
+
+    for x in 0..dim_x {
+        let mut row: String = String::from("");
+        for y in 0..dim_y {
+            row = row
+                + match tool_box.game_state.get_tile(x, y).unwrap().get_state() {
+                    TileState::HIDDEN => " X ",
+                    _ => "O",
+                };
+        }
+        println!("{:?}", row);
+    }
+
+    println!("---------------");
 }
 
 fn main() {
