@@ -1,4 +1,5 @@
 use rstar::{RTreeObject, AABB};
+use sfml::graphics::Drawable;
 #[derive(Debug)]
 pub struct Tile {
     state: TileState,
