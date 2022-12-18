@@ -2,12 +2,12 @@ use crate::gamestate::GameState;
 use std::sync::mpsc;
 
 use sfml::window as sf;
-
+use sfml::graphics::*;
 use sf::{Window, Style, Event};
 
 #[derive(Debug)]
 pub struct Toolbox {
-    pub window: Window,
+    pub window: RenderWindow,
     pub game_state: GameState,
 }
 #[derive(Debug)]
@@ -20,7 +20,7 @@ pub enum EventCode {
 impl Toolbox {
     pub fn new() -> Toolbox {
         Toolbox {
-            window: Window::new((800,600), "P4 - Minesweeper, Taylor Hiatt", Style::CLOSE, &Default::default()),
+            window: RenderWindow::new((800,600), "P4 - Minesweeper, Taylor Hiatt", Style::CLOSE, &Default::default()),
             game_state: GameState::new(None, None),
         }
     }
@@ -68,23 +68,31 @@ impl Toolbox {
 
         // Pre-update
 
-        &self.Update();
+        self = self.Update();
 
         // Post-update, pre-render
-
-        &self.Render();
+        self = self.Render();
 
         // Post-frame
         self.window.display();
         self
     }
 
-    pub fn Update(&self) {
-        
+    pub fn Update(self) -> Self {
+
+        self        
     }
 
-    pub fn Render(&self) {
-        
+    pub fn Render(mut self) -> Self{
+        let dims = &self.game_state.get_dims();
+
+        for x in 0..dims.0 {
+            for y in 0..dims.1 {
+                self.window.draw(self.game_state.get_tile(x, y).unwrap());
+            }
+        }
+
+        self
     }   
 
 }

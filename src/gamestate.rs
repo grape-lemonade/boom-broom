@@ -48,7 +48,7 @@ impl GameState {
         let mut temp: Vec<Tile> = Vec::new();
         for pos_x in (0..new.dims.0) {
             for pos_y in (0..new.dims.1) {
-                temp.push(Tile::new((pos_x, pos_y)));
+                temp.push(Tile::new((pos_x, pos_y), "test"));
             }
         }
         println!("packing tree...");
