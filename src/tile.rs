@@ -1,27 +1,27 @@
 use std::{sync::Mutex, collections::HashMap};
 
-use sdl2::{rect::Rect, render::{Texture, Canvas}};
+use sdl2::{rect::Rect, render::{Texture, Canvas}, mouse::MouseButton};
 
 use crate::BOARD;
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct Coords2d {
-    pub x: u16,
-    pub y: u16,
+    pub x: i32,
+    pub y: i32,
 }
 impl Coords2d {
-    pub fn flatten(&self, dims: &Coords2d) -> usize {
+    pub fn flatten(&self, dims: &Coords2d) -> i32 {
         (&self.x+(&self.y*dims.x)).into()
     }
 
-    pub fn copy_expand(&self, width: u16, height: u16) -> Self {
+    pub fn copy_expand(&self, width: i32, height: i32) -> Self {
         Coords2d {
             x: &self.x*width,
             y: &self.y*height,
         }
     }
 
-    pub fn from_tuple(i: (u16, u16)) -> Self {
+    pub fn from_tuple(i: (i32, i32)) -> Self {
         Coords2d {
             x: i.0,
            y: i.1,
@@ -41,7 +41,7 @@ impl GameBoard {
             tile_grid: Vec::new(),
             dims: dims,
         };
-        for x in 0..__.dims.x {
+        for x in 0..__.dims.x.into() {
             for y in 0..__.dims.y {
                 __.tile_grid.push(Tile::new(Coords2d::from_tuple((x,y))));
             }
@@ -51,7 +51,7 @@ impl GameBoard {
     }
 
     pub fn get_tile(&self, pos: Coords2d) -> Option<&Tile> {
-        self.tile_grid.get(pos.flatten(&self.dims))
+        self.tile_grid.get(pos.flatten(&self.dims) as usize)
     }
 
     pub fn get_dims(&self) -> &Coords2d {
@@ -99,17 +99,39 @@ impl Tile {
     pub fn get_state(&self) -> &TileState {
         &self.state
     }
+    pub fn set_state(&self, st: TileState) {
+        self.state = st;
+        let __ = self.clone();
+        __.set_state(st)
+    }
 
-    pub fn draw(&self, mut canvas: &mut Canvas<sdl2::video::Window>, tex: Mutex<HashMap<&str, Texture>>) {
+    pub fn draw(&self, mut canvas: &mut Canvas<sdl2::video::Window>, tex: &HashMap<&str, Texture>) {
         match &self.get_state() {
-            TileState::REVEALED => todo!(),
+            TileState::REVEALED => {
+                let texture = tex.get("tile_revealed").expect("Failed to pull texture");
+                let tru_pos = self.pos.copy_expand(32, 32);
+                canvas.copy(texture, None, Rect::new(tru_pos.x.into(), tru_pos.y, 32, 32));
+            },
             TileState::HIDDEN => {
-                let texture = tex.lock().unwrap().get("tile_hidden").expect("Failed to pull texture");
-                canvas.copy(texture, None, Rect::new(self.pos.x.into(), self.pos.y.into(), 32, 32));
+                let texture = tex.get("tile_hidden").expect("Failed to pull texture");
+                let tru_pos = self.pos.copy_expand(32, 32);
+                canvas.copy(texture, None, Rect::new(tru_pos.x.into(), tru_pos.y.into(), 32, 32));
             },
             TileState::FLAGGED => todo!(),
             TileState::EXPLODED => todo!(),
         };
-        println!("Tile called draw at {}, {}", &self.pos.x, &self.pos.y)
+        //println!("Tile called draw at {}, {}", &self.pos.x, &self.pos.y)
+    }
+
+    pub fn on_click(&self, m: MouseButton) {
+        match m {
+            MouseButton::Unknown => todo!(),
+            MouseButton::Left => {
+                // set to revealed if not flagged
+                self.set_state(TileState::REVEALED);
+            },
+            MouseButton::Right => todo!(),
+            _ => {},
+        }
     }
 }

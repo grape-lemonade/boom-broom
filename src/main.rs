@@ -15,12 +15,12 @@ mod tile;
 use tile::*;
 
 
-pub fn render(mut canvas: &mut Canvas<sdl2::video::Window>, tex: Mutex<HashMap<&str, Texture>>) {
+pub fn render(mut canvas: &mut Canvas<sdl2::video::Window>, tex: &HashMap<&str, Texture>) {
     let dims = BOARD.get().unwrap().get_dims();
 
     for x in 0..dims.x {
         for y in 0..dims.y {
-            BOARD.get().unwrap().get_tile(Coords2d::from_tuple((x, y))).expect("Failed to get tile").draw(canvas, tex);
+            BOARD.get().unwrap().get_tile(Coords2d::from_tuple((x, y))).expect("Failed to get tile").draw(canvas, &tex);
         }
     }
 }
@@ -59,21 +59,21 @@ pub fn main() {
 
     let texture_creator = canvas.texture_creator();
 
-    let mut tex: Mutex<HashMap<&str, Texture>> = Mutex::new(HashMap::new());
+    let mut tex: HashMap<&str, Texture> = HashMap::new();
 
     //surface.from_fil
-    tex.lock().unwrap().insert("tile_hidden", texture_creator.load_texture("./data/images/tile_hidden.png").unwrap());
+    tex.insert("tile_hidden", texture_creator.load_texture("./data/images/tile_hidden.png").unwrap());
 
-    tex.lock().unwrap().insert("tile_revealed", texture_creator.load_texture("./data/images/tile_revealed.png").unwrap());
-    tex.lock().unwrap().insert("number_1", texture_creator.load_texture("./data/images/number_1.png").unwrap());
-    tex.lock().unwrap().insert("number_2", texture_creator.load_texture("./data/images/number_2.png").unwrap());
-    tex.lock().unwrap().insert("number_3", texture_creator.load_texture("./data/images/number_3.png").unwrap());
-    tex.lock().unwrap().insert("number_4", texture_creator.load_texture("./data/images/number_4.png").unwrap());
-    tex.lock().unwrap().insert("number_5", texture_creator.load_texture("./data/images/number_5.png").unwrap());
-    tex.lock().unwrap().insert("number_6", texture_creator.load_texture("./data/images/number_6.png").unwrap());
-    tex.lock().unwrap().insert("number_7", texture_creator.load_texture("./data/images/number_7.png").unwrap());
-    tex.lock().unwrap().insert("number_8", texture_creator.load_texture("./data/images/number_8.png").unwrap());
-    tex.lock().unwrap().insert("flag", texture_creator.load_texture("./data/images/flag.png").unwrap());
+    tex.insert("tile_revealed", texture_creator.load_texture("./data/images/tile_revealed.png").unwrap());
+    tex.insert("number_1", texture_creator.load_texture("./data/images/number_1.png").unwrap());
+    tex.insert("number_2", texture_creator.load_texture("./data/images/number_2.png").unwrap());
+    tex.insert("number_3", texture_creator.load_texture("./data/images/number_3.png").unwrap());
+    tex.insert("number_4", texture_creator.load_texture("./data/images/number_4.png").unwrap());
+    tex.insert("number_5", texture_creator.load_texture("./data/images/number_5.png").unwrap());
+    tex.insert("number_6", texture_creator.load_texture("./data/images/number_6.png").unwrap());
+    tex.insert("number_7", texture_creator.load_texture("./data/images/number_7.png").unwrap());
+    tex.insert("number_8", texture_creator.load_texture("./data/images/number_8.png").unwrap());
+    tex.insert("flag", texture_creator.load_texture("./data/images/flag.png").unwrap());
 
 
     let mut event_pump = sdl_context.event_pump().unwrap();
@@ -89,6 +89,12 @@ pub fn main() {
                 },
                 Event::MouseButtonDown { timestamp, window_id, which, mouse_btn, clicks, x, y } => {
                     //Mouse click handling stuff here
+                    
+                    if ((x/32) < dims.x.into() && (y/32) < dims.y.into()) {
+                        println!("Mouse Clicked at: {}, {}", x/32, y/32);
+                        BOARD.get().unwrap().get_tile(Coords2d::from_tuple(((x/32).into(), (y/32).into()))).expect("Unable to get tile in click event").on_click(mouse_btn);
+                    }
+                    
                 },
                 _ => {}
             }
@@ -96,7 +102,7 @@ pub fn main() {
         // The rest of the game loop goes here...
 
         update();                   // Perform game updates
-        render(&mut canvas, tex);    // Actually render game
+        render(&mut canvas, &tex);    // Actually render game
 
         canvas.present();
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60)); // Enforce framerate
