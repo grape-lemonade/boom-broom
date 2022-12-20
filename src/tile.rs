@@ -27,10 +27,7 @@ impl Coords2d {
            y: i.1,
         }
     }
-    
-    pub fn to_save(&self) -> u8 {
-        // Returns the 3 bit save format of this tile in a u8, only 3 first bits used
-    }
+
 }
 
 #[derive(Debug)]
@@ -107,6 +104,11 @@ impl Tile {
         self.state = st;
         let __ = self.clone();
         __.set_state(st)
+    }
+    
+        
+    pub fn to_save(&self) -> u8 {
+        // Returns the 3 bit save format of this tile in a u8, only 3 first bits used
     }
 
     pub fn draw(&self, mut canvas: &mut Canvas<sdl2::video::Window>, tex: &HashMap<&str, Texture>) {
