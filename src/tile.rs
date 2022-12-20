@@ -27,6 +27,10 @@ impl Coords2d {
            y: i.1,
         }
     }
+    
+    pub fn to_save(&self) -> u8 {
+        // Returns the 3 bit save format of this tile in a u8, only 3 first bits used
+    }
 }
 
 #[derive(Debug)]
