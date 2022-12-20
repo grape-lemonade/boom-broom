@@ -1,0 +1,42 @@
+A tile can be stored in 3 bits.
+
+States:
+	Hidden (Clear/Mine)
+	Revealed (Clear/Mine) (revealed mine is treated as exploded)
+	Flagged (Clear/Mine)
+	Exploded (Mine) (for running games only, not saved)
+
+0000 (0x0)	None
+0100 (0x4)	Invalid
+
+0001 (0x1)	Hidden Clear
+0101 (0x5)	Hidden Mine
+0010 (0x2)	Revealed Clear
+0110 (0x6)	Revealed Mine (Exploded)
+0011 (0x3)	Flagged Clear
+0111 (0x7)	Flagged Mine
+
+First 2 bytes of file is u8 dimensions of board
+Each subsequent byte is 2 tiles, 4 bits each with MSB being unused (yet)
+
+Example Save:
+(hex split by 2 bytes)
+
+0x 0404 0000	//2 bytes of header and 2 bytes padding
+0x 1151 1151	//First 8 tiles
+0x 1111 1111	//Second 8 tiles
+
+Codified:
+unsigned char ucDataBlock[12] = {
+	// Offset 0x00000000 to 0x0000000B
+	0x04, 0x04, 0x00, 0x00, 0x11, 0x51, 0x11, 0x51, 0x11, 0x11, 0x11, 0x11
+};
+
+
+Makes this board:
+
+0010
+0010
+0000
+0000
+
