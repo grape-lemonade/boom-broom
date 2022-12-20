@@ -17,12 +17,13 @@ States:
 0111 (0x7)	Flagged Mine
 
 First 2 bytes of file is u8 dimensions of board
+Second 2 bytes is number of seconds since board started
 Each subsequent byte is 2 tiles, 4 bits each with MSB being unused (yet)
 
 Example Save:
 (hex split by 2 bytes)
 
-0x 0404 0000	//2 bytes of header and 2 bytes padding
+0x 0404 0000	//4 bytes of header
 0x 1151 1151	//First 8 tiles
 0x 1111 1111	//Second 8 tiles
 
