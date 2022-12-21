@@ -1,6 +1,10 @@
-use std::{sync::Mutex, collections::HashMap};
+use std::{collections::HashMap, sync::Mutex};
 
-use sdl2::{rect::Rect, render::{Texture, Canvas}, mouse::MouseButton};
+use sdl2::{
+    mouse::MouseButton,
+    rect::Rect,
+    render::{Canvas, Texture},
+};
 
 use crate::BOARD;
 
@@ -11,23 +15,19 @@ pub struct Coords2d {
 }
 impl Coords2d {
     pub fn flatten(&self, dims: &Coords2d) -> i32 {
-        (&self.x+(&self.y*dims.x)).into()
+        (&self.x + (&self.y * dims.x)).into()
     }
 
     pub fn copy_expand(&self, width: i32, height: i32) -> Self {
         Coords2d {
-            x: &self.x*width,
-            y: &self.y*height,
+            x: &self.x * width,
+            y: &self.y * height,
         }
     }
 
     pub fn from_tuple(i: (i32, i32)) -> Self {
-        Coords2d {
-            x: i.0,
-           y: i.1,
-        }
+        Coords2d { x: i.0, y: i.1 }
     }
-
 }
 
 #[derive(Debug)]
@@ -44,7 +44,7 @@ impl GameBoard {
         };
         for x in 0..__.dims.x.into() {
             for y in 0..__.dims.y {
-                __.tile_grid.push(Tile::new(Coords2d::from_tuple((x,y))));
+                __.tile_grid.push(Tile::new(Coords2d::from_tuple((x, y))));
             }
         }
         println!("{:?}", __);
@@ -58,7 +58,6 @@ impl GameBoard {
     pub fn get_dims(&self) -> &Coords2d {
         &self.dims
     }
-    
 }
 
 #[derive(Debug)]
@@ -80,7 +79,6 @@ struct RenderContext<'a> {
     texture: Texture<'a>,
 }
 
-
 #[derive(Debug)]
 pub struct Tile {
     pos: Coords2d,
@@ -100,15 +98,15 @@ impl Tile {
     pub fn get_state(&self) -> &TileState {
         &self.state
     }
-    pub fn set_state(&self, st: TileState) {
-        self.state = st;
-        let __ = self.clone();
-        __.set_state(st)
-    }
-    
-        
+    // pub fn set_state(&self, st: TileState) {
+    //     self.state = st;
+    //     let __ = self.clone();
+    //     __.set_state(st)
+    // }
+
     pub fn to_save(&self) -> u8 {
         // Returns the 3 bit save format of this tile in a u8, only 3 first bits used
+        todo!();
     }
 
     pub fn draw(&self, mut canvas: &mut Canvas<sdl2::video::Window>, tex: &HashMap<&str, Texture>) {
@@ -116,13 +114,21 @@ impl Tile {
             TileState::REVEALED => {
                 let texture = tex.get("tile_revealed").expect("Failed to pull texture");
                 let tru_pos = self.pos.copy_expand(32, 32);
-                canvas.copy(texture, None, Rect::new(tru_pos.x.into(), tru_pos.y, 32, 32));
-            },
+                canvas.copy(
+                    texture,
+                    None,
+                    Rect::new(tru_pos.x.into(), tru_pos.y, 32, 32),
+                );
+            }
             TileState::HIDDEN => {
                 let texture = tex.get("tile_hidden").expect("Failed to pull texture");
                 let tru_pos = self.pos.copy_expand(32, 32);
-                canvas.copy(texture, None, Rect::new(tru_pos.x.into(), tru_pos.y.into(), 32, 32));
-            },
+                canvas.copy(
+                    texture,
+                    None,
+                    Rect::new(tru_pos.x.into(), tru_pos.y.into(), 32, 32),
+                );
+            }
             TileState::FLAGGED => todo!(),
             TileState::EXPLODED => todo!(),
         };
@@ -134,10 +140,11 @@ impl Tile {
             MouseButton::Unknown => todo!(),
             MouseButton::Left => {
                 // set to revealed if not flagged
-                self.set_state(TileState::REVEALED);
-            },
+                todo!();
+                //self.set_state(TileState::REVEALED);
+            }
             MouseButton::Right => todo!(),
-            _ => {},
+            _ => {}
         }
     }
 }
