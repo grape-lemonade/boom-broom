@@ -1,3 +1,4 @@
+use gameloop::GameLoop;
 use once_cell::sync::OnceCell;
 use sdl2::event::Event;
 use sdl2::image::*;
@@ -13,25 +14,24 @@ use std::time::Duration;
 
 mod tile;
 use tile::*;
+mod gameloop;
 
 pub fn render(mut canvas: &mut Canvas<sdl2::video::Window>, tex: &HashMap<&str, Texture>) {
-    let dims = BOARD.get().unwrap().get_dims();
+    // let dims = BOARD.get().unwrap().get_dims();
 
-    for x in 0..dims.x {
-        for y in 0..dims.y {
-            BOARD
-                .get()
-                .unwrap()
-                .get_tile(Coords2d::from_tuple((x, y)))
-                .expect("Failed to get tile")
-                .draw(canvas, &tex);
-        }
-    }
+    // for x in 0..dims.x {
+    //     for y in 0..dims.y {
+    //         BOARD
+    //             .get()
+    //             .unwrap()
+    //             .get_tile(Coords2d::from_tuple((x, y)))
+    //             .expect("Failed to get tile")
+    //             .draw(canvas, &tex);
+    //     }
+    // }
 }
 
 pub fn update() {}
-
-static BOARD: OnceCell<GameBoard> = OnceCell::new();
 
 enum StaticTexture {
     Tile_Hidden,
@@ -58,9 +58,7 @@ pub fn main() {
 
     // Game initialization
     let dims = Coords2d { x: 25, y: 16 };
-    BOARD
-        .set(GameBoard::new(dims))
-        .expect("Failed to create game board");
+    GameLoop::init(dims);
 
     let texture_creator = canvas.texture_creator();
 
@@ -165,23 +163,23 @@ pub fn main() {
                 } => {
                     //Mouse click handling stuff here
 
-                    if (x / 32) < dims.x.into() && (y / 32) < dims.y.into() {
-                        println!("Mouse Clicked at: {}, {}", x / 32, y / 32);
-                        BOARD
-                            .get()
-                            .unwrap()
-                            .get_tile(Coords2d::from_tuple(((x / 32).into(), (y / 32).into())))
-                            .expect("Unable to get tile in click event")
-                            .on_click(mouse_btn);
-                    }
+                    // if (x / 32) < dims.x.into() && (y / 32) < dims.y.into() {
+                    //     println!("Mouse Clicked at: {}, {}", x / 32, y / 32);
+                    //     BOARD
+                    //         .get()
+                    //         .unwrap()
+                    //         .get_tile(Coords2d::from_tuple(((x / 32).into(), (y / 32).into())))
+                    //         .expect("Unable to get tile in click event")
+                    //         .on_click(mouse_btn);
+                    // }
                 }
-                _ => {}
+                _ => GameLoop::handle_event(event), //Eventually want all event handling here
             }
         }
         // The rest of the game loop goes here...
 
-        update(); // Perform game updates
-        render(&mut canvas, &tex); // Actually render game
+        GameLoop::try_update().expect("Failed to run update loop"); // Perform game updates
+        GameLoop::try_render().expect("Failed to run render loop");
 
         canvas.present();
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60)); // Enforce framerate

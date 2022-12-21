@@ -6,8 +6,6 @@ use sdl2::{
     render::{Canvas, Texture},
 };
 
-use crate::BOARD;
-
 #[derive(Debug, Copy, Clone)]
 pub struct Coords2d {
     pub x: i32,
