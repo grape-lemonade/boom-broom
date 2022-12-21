@@ -165,7 +165,7 @@ pub fn main() {
                 } => {
                     //Mouse click handling stuff here
 
-                    if ((x / 32) < dims.x.into() && (y / 32) < dims.y.into()) {
+                    if (x / 32) < dims.x.into() && (y / 32) < dims.y.into() {
                         println!("Mouse Clicked at: {}, {}", x / 32, y / 32);
                         BOARD
                             .get()
