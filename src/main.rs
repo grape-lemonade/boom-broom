@@ -60,78 +60,7 @@ pub fn main() {
     let dims = Coords2d { x: 25, y: 16 };
     GameLoop::init(dims);
 
-    let texture_creator = canvas.texture_creator();
-
-    let mut tex: HashMap<&str, Texture> = HashMap::new();
-
-    //surface.from_fil
-    tex.insert(
-        "tile_hidden",
-        texture_creator
-            .load_texture("./data/images/tile_hidden.png")
-            .unwrap(),
-    );
-
-    tex.insert(
-        "tile_revealed",
-        texture_creator
-            .load_texture("./data/images/tile_revealed.png")
-            .unwrap(),
-    );
-    tex.insert(
-        "number_1",
-        texture_creator
-            .load_texture("./data/images/number_1.png")
-            .unwrap(),
-    );
-    tex.insert(
-        "number_2",
-        texture_creator
-            .load_texture("./data/images/number_2.png")
-            .unwrap(),
-    );
-    tex.insert(
-        "number_3",
-        texture_creator
-            .load_texture("./data/images/number_3.png")
-            .unwrap(),
-    );
-    tex.insert(
-        "number_4",
-        texture_creator
-            .load_texture("./data/images/number_4.png")
-            .unwrap(),
-    );
-    tex.insert(
-        "number_5",
-        texture_creator
-            .load_texture("./data/images/number_5.png")
-            .unwrap(),
-    );
-    tex.insert(
-        "number_6",
-        texture_creator
-            .load_texture("./data/images/number_6.png")
-            .unwrap(),
-    );
-    tex.insert(
-        "number_7",
-        texture_creator
-            .load_texture("./data/images/number_7.png")
-            .unwrap(),
-    );
-    tex.insert(
-        "number_8",
-        texture_creator
-            .load_texture("./data/images/number_8.png")
-            .unwrap(),
-    );
-    tex.insert(
-        "flag",
-        texture_creator
-            .load_texture("./data/images/flag.png")
-            .unwrap(),
-    );
+    // TODO: add lazy texture loading and reuse.
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     'running: loop {
@@ -179,9 +108,9 @@ pub fn main() {
         // The rest of the game loop goes here...
 
         GameLoop::try_update().expect("Failed to run update loop"); // Perform game updates
-        GameLoop::try_render().expect("Failed to run render loop");
+        GameLoop::try_render().expect("Failed to run render loop"); // Perform frame render
 
-        canvas.present();
+        canvas.present(); // Move to be part of render loop
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60)); // Enforce framerate
     }
 }
