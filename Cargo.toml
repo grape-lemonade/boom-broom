@@ -1,7 +1,6 @@
 [workspace]
 members = [
-    "glasses",
-    "grapes",
+    "rusty_glasses",
 ]
 
 [package]
@@ -15,8 +14,7 @@ edition = "2021"
 lazy_static = "1.4.0"
 once_cell = "1.16.0"
 rstar = "0.9.3"
-glasses = { path = "./glasses"}
-grapes = { path = "./grapes"} #todo move this to a git repo and have it be imported via { git="" }
+rusty_glasses = { path = "./rusty_glasses"}
 
 
 [dependencies.sdl2]

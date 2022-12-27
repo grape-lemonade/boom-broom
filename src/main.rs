@@ -12,7 +12,7 @@ use std::collections::HashMap;
 use std::sync::Mutex;
 use std::time::Duration;
 
-use glasses;
+use rusty_glasses;
 
 mod tile;
 use tile::*;
@@ -41,7 +41,6 @@ enum StaticTexture {
 }
 
 pub fn main() {
-    println!("{:?}", glasses::add(1, 2));
     let sdl_context = sdl2::init().unwrap();
     let sdl_image = sdl2::image::init(InitFlag::PNG).unwrap();
     let video_subsystem = sdl_context.video().unwrap();
