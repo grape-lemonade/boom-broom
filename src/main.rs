@@ -6,16 +6,15 @@ use sdl2::keyboard::Keycode;
 use sdl2::pixels::{Color, PixelFormatEnum};
 use sdl2::rect::Rect;
 use sdl2::render::{Canvas, Texture};
-use sdl2::surface::Surface;
 use sdl2::{image, Sdl};
 use std::collections::HashMap;
-use std::sync::Mutex;
 use std::time::Duration;
 
 use rusty_glasses;
 
 mod tile;
 use tile::*;
+
 mod gameloop;
 
 pub fn render(mut canvas: &mut Canvas<sdl2::video::Window>, tex: &HashMap<&str, Texture>) {
@@ -35,38 +34,28 @@ pub fn render(mut canvas: &mut Canvas<sdl2::video::Window>, tex: &HashMap<&str, 
 
 pub fn update() {}
 
-enum StaticTexture {
-    Tile_Hidden,
-    Tile_Revealed,
-}
-
 pub fn main() {
-    let sdl_context = sdl2::init().unwrap();
-    let sdl_image = sdl2::image::init(InitFlag::PNG).unwrap();
-    let video_subsystem = sdl_context.video().unwrap();
-
-    let window = video_subsystem
-        .window("P4 - Minesweeper, Taylor Hiatt", 800, 600)
-        .position_centered()
-        .build()
-        .unwrap();
-
-    let mut canvas = window.into_canvas().build().unwrap();
+    let glass = rusty_glasses::init().unwrap();
 
     // Clear canvas beforehand
-    canvas.set_draw_color(Color::RGB(21, 21, 21));
-    canvas.clear();
-    canvas.present();
+    glass.use_canvas(|canvas| {
+        // Initial canvas clear
+        canvas.set_draw_color(Color::RGB(0, 255, 255));
+        canvas.clear();
+        canvas.present();
+    });
 
     // Game initialization
     let dims = Coords2d { x: 25, y: 16 };
     GameLoop::init(dims);
 
     // TODO: add lazy texture loading and reuse.
-
-    let mut event_pump = sdl_context.event_pump().unwrap();
     'running: loop {
-        for event in event_pump.poll_iter() {
+        // The rest of the game loop goes here...
+
+        let events = glass.handle_events();
+
+        for event in events {
             match event {
                 Event::Quit { .. }
                 | Event::KeyDown {
@@ -106,13 +95,12 @@ pub fn main() {
                 }
                 _ => GameLoop::handle_event(event), //Eventually want all event handling here
             }
+
+            GameLoop::try_update().expect("Failed to run update loop"); // Perform game updates
+            GameLoop::try_render().expect("Failed to run render loop"); // Perform frame render
+
+            //canvas.present(); // Move to be part of render loop
+            ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60)); // Enforce framerate
         }
-        // The rest of the game loop goes here...
-
-        GameLoop::try_update().expect("Failed to run update loop"); // Perform game updates
-        GameLoop::try_render().expect("Failed to run render loop"); // Perform frame render
-
-        canvas.present(); // Move to be part of render loop
-        ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60)); // Enforce framerate
     }
 }
