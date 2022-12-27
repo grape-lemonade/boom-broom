@@ -1,16 +1,6 @@
 use gameloop::GameLoop;
-use once_cell::sync::OnceCell;
-use sdl2::event::Event;
-use sdl2::image::*;
-use sdl2::keyboard::Keycode;
-use sdl2::pixels::{Color, PixelFormatEnum};
-use sdl2::rect::Rect;
-use sdl2::render::{Canvas, Texture};
-use sdl2::{image, Sdl};
-use std::collections::HashMap;
-use std::time::Duration;
-
 use rusty_glasses;
+use sdl2::pixels::Color;
 
 mod tile;
 use tile::*;
