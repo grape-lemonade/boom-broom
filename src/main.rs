@@ -23,6 +23,7 @@ pub fn main() {
     GameLoop::init(dims);
 
     // TODO: add lazy texture loading and reuse.
+    // TODO: reorganize the gameloop and tile modules for easier development
     'running: loop {
         let res = GameLoop::run_loop(&glass);
         res.expect("Game loop failed to run");
