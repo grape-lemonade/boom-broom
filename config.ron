@@ -1,0 +1,29 @@
+GameConfig(
+    window_size: (800, 600),
+    window_title: "P4 - Minesweeper, Taylor Hiatt",
+    
+
+    board_size: (25, 16),
+    mine_count: 25,
+
+    key_bindings: {
+        "Escape": Exit,
+
+    },
+
+    assets: (
+        // Tile assets
+        tile_hidden: "./data/images/tile_hidden.png",
+        tile_revealed: "./data/images/tile_revealed.png",
+        flag: "./data/images/flag.png",
+        mine: "./data/images/mine.png",
+        num_1: "./data/images/number_1.png",
+        num_2: "./data/images/number_2.png",
+        num_3: "./data/images/number_3.png",
+        num_4: "./data/images/number_4.png",
+        num_5: "./data/images/number_5.png",
+        num_6: "./data/images/number_6.png",
+        num_7: "./data/images/number_7.png",
+        num_8: "./data/images/number_8.png",
+    )
+)

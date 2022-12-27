@@ -1,0 +1,17 @@
+GameBoard(
+    // Metadata
+    size: (25, 16),
+    mine_count: 25,
+
+    // Tile map
+    tile_map: [
+        Tile(
+            pos: (0, 0),
+            state: HIDDEN,
+            is_mine: false,
+        ),
+        // ...
+        // The rest of the tiles here
+    ],
+    time: 0,
+)
