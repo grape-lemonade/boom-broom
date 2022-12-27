@@ -1,0 +1,18 @@
+GameState(
+    config: GameConfig(...),
+    board: GameBoard(...),
+    assets: [Sprite(...), Sprite(...), ...],
+    glass: GlassContext(...),   // The Glasses context object, provides access to the canvas and drawing functions
+
+    // Initalized entire program, passed config and generates board and loads assets from it
+    init: Fn(config: GameConfig),
+
+
+    // Run once per frame before draw, does event handling, physics, etc
+    update: Fn(),
+
+    // Run once per from after update, draws assets to screen
+    draw: Fn(),
+)
+
+// Main initialized GameState
