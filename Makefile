@@ -1,5 +1,4 @@
 # Compiler configuration
-GENERAL_ARGS = --release
 
 # Application configuration
 define get_config_value
@@ -8,14 +7,14 @@ endef
 
 all: build-linux build-windows
 
-build-release-linux:
-	cargo build $(GENERAL_ARGS)
+release-linux:
+	cargo build --target x86_64-unknown-linux-gnu --release
 
-build-linux:
-	cargo build
+linux:
+	cargo build --target x86_64-unknown-linux-gnu
 
-build-release-windows:
-	cargo build --target x86_64-pc-windows-gnu $(GENERAL_ARGS)
+release-windows:
+	cargo build --target x86_64-pc-windows-gnu --release
 
-build-windows:
+windows:
 	cargo build --target x86_64-pc-windows-gnu
