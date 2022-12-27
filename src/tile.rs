@@ -107,25 +107,15 @@ impl Tile {
         todo!();
     }
 
-    pub fn draw(&self, mut canvas: &mut Canvas<sdl2::video::Window>, tex: &HashMap<&str, Texture>) {
+    pub fn draw(&self, tex: &HashMap<&str, Texture>) {
         match &self.get_state() {
             TileState::REVEALED => {
                 let texture = tex.get("tile_revealed").expect("Failed to pull texture");
                 let tru_pos = self.pos.copy_expand(32, 32);
-                canvas.copy(
-                    texture,
-                    None,
-                    Rect::new(tru_pos.x.into(), tru_pos.y, 32, 32),
-                );
             }
             TileState::HIDDEN => {
                 let texture = tex.get("tile_hidden").expect("Failed to pull texture");
                 let tru_pos = self.pos.copy_expand(32, 32);
-                canvas.copy(
-                    texture,
-                    None,
-                    Rect::new(tru_pos.x.into(), tru_pos.y.into(), 32, 32),
-                );
             }
             TileState::FLAGGED => todo!(),
             TileState::EXPLODED => todo!(),

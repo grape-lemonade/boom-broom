@@ -103,9 +103,20 @@ impl GameLoop {
 
     pub fn try_render(glass: &GlassContext) -> Result {
         glass.use_canvas(|canvas| {
+            let board = &LOOPER.try_read().expect("Couldn't read board state");
+
             // Clear canvas so no frame smear
             canvas.set_draw_color(Color::RGB(21, 21, 21));
             canvas.clear();
+
+            //let dim = board.board.unwrap().get_dims();
+
+            // for x in 0..dim.x {
+            //     for y in 0..dim.y {
+            //         //let t = board.get_tile(Coords2d { x, y }).unwrap();
+            //         //t.get_draw();
+            //     }
+            // }
 
             canvas.set_draw_color(Color::RGB(0, 33, 255));
             canvas.draw_rect(Rect::new(0, 0, 5, 5));
