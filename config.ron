@@ -6,7 +6,7 @@ GameConfig(
     board_size: Vec2D(
         x: 25,
         y: 16
-        ),
+    ),
     mine_count: 25,
 
     key_bindings: {
@@ -28,5 +28,16 @@ GameConfig(
         (name: "num_6", path: "./data/images/number_6.png"),
         (name: "num_7", path: "./data/images/number_7.png"),
         (name: "num_8", path: "./data/images/number_8.png"),
+
+        // Ui assets
+
+        (name: "debug", path: "./data/images/debug.png")
+        (name: "digits", path: "./data/images/digits.png")
+        (name: "face_happy", path: "./data/images/face_happy.png")
+        (name: "face_lose", path: "./data/images/face_lose.png")
+        (name: "face_win", path: "./data/images/face_win.png")
+        (name: "test_1", path: "./data/images/test_1.png")
+        (name: "test_2", path: "./data/images/test_2.png")
+        (name: "test_3", path: "./data/images/Test_3.png")
     ]
 )
