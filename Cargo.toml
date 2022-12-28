@@ -20,6 +20,11 @@ ron = "0.8.0"
 rstar = "0.9.3"
 rusty_glasses = { path = "./rusty_glasses"}
 serde = {version = "1.0.152", features = ["derive"]}
+parking_lot = "0.12.1"
+rand = "0.8.5"
+fastrand = "1.8.0"
+ran = "1.0.7"
+nanorand = "0.7.0"
 
 
 [dependencies.sdl2]

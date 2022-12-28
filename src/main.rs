@@ -1,31 +1,30 @@
-use gameloop::GameLoop;
+use game_state::GameState;
 use rusty_glasses;
 use sdl2::pixels::Color;
 
-mod tile;
-use tile::*;
+use std::fs;
 
-mod gameloop;
+mod game_board;
+mod game_config;
+mod game_state;
+mod util;
 
 pub fn main() {
-    let glass = rusty_glasses::init("P4 - Minesweeper, Taylor Hiatt", 800, 600).unwrap();
+    // TODO: load config
+    let con = fs::read_to_string("config.ron").expect("Couldn't load config file.");
+    let gs = GameState::init(ron::from_str(&con).expect("Couldn't serialize config"));
 
-    // Clear canvas beforehand
-    glass.use_canvas(|canvas| {
-        // Initial canvas clear
-        canvas.set_draw_color(Color::RGB(21, 21, 21));
-        canvas.clear();
-        canvas.present();
-    });
+    //println!("{:?}", gs);
 
-    // Game initialization
-    let dims = Coords2d { x: 25, y: 16 };
-    GameLoop::init(dims);
+    loop {
+        gs.update();
+        gs.draw();
+    }
 
     // TODO: add lazy texture loading and reuse.
     // TODO: reorganize the gameloop and tile modules for easier development
-    'running: loop {
-        let res = GameLoop::run_loop(&glass);
-        res.expect("Game loop failed to run");
-    }
+    // 'running: loop {
+    //     let res = GameLoop::run_loop(&glass);
+    //     res.expect("Game loop failed to run");
+    // }
 }
