@@ -7,7 +7,7 @@ GameConfig(
         x: 25,
         y: 16
     ),
-    mine_count: 25,
+    mine_count: 50,
 
     key_bindings: {
         "Escape": Exit,
@@ -39,5 +39,10 @@ GameConfig(
         (name: "test_1", path: "./data/images/test_1.png"),
         (name: "test_2", path: "./data/images/test_2.png"),
         (name: "test_3", path: "./data/images/Test_3.png"),
+    ],
+
+    tests: [
+        //(name: "manual", path: "./data/boards/manual.brd"),
+        // Include test boards here
     ]
 )

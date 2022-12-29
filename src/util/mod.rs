@@ -13,6 +13,13 @@ impl Vec2D {
         Some((&self.y + (&self.x * dims.y)).into())
     }
 
+    pub fn flat(x: i32, y: i32, dims: &Vec2D) -> Option<i32> {
+        if &x >= &dims.x || &y >= &dims.y || &x < &0 || &y < &0 {
+            return None;
+        }
+        Some((&y + (&x * dims.y)).into())
+    }
+
     pub fn copy_expand(&self, width: i32, height: i32) -> Self {
         Vec2D {
             x: &self.x * width,
@@ -22,5 +29,15 @@ impl Vec2D {
 
     pub fn from_tuple(i: (i32, i32)) -> Self {
         Vec2D { x: i.0, y: i.1 }
+    }
+}
+
+pub fn num_to_digit_coords(n: u8) {
+    // Gross and hardcoded for now, mostly just a helper function
+
+    match n {
+        0x00 => {}
+        0x01 => {}
+        _ => {}
     }
 }

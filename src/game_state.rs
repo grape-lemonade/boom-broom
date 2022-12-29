@@ -1,3 +1,5 @@
+use std::fs;
+
 use crate::{game_board::GameBoard, game_config::GameConfig, util::Vec2D};
 use parking_lot::FairMutex;
 use rusty_glasses::{sprite::Sprite, GlassContext};
@@ -31,11 +33,20 @@ impl GameState {
         )
         .unwrap();
 
-        GameState {
-            board: GameBoard::new(config.board_size, config.mine_count),
-            config,
-            assets,
-            glass,
+        if config.tests.len() > 0 {
+            GameState {
+                board: GameBoard::from_test(config.board_size, "./data/boards/manual.brd"), // This is very broken, do not use yet
+                config,
+                assets,
+                glass,
+            }
+        } else {
+            GameState {
+                board: GameBoard::new(config.board_size, config.mine_count),
+                config,
+                assets,
+                glass,
+            }
         }
     }
 
@@ -102,6 +113,7 @@ impl GameState {
             canvas.set_draw_color(Color::RGB(21, 21, 21));
             canvas.clear();
 
+            // Draw Gameboard
             for tile in &self.board.tile_map {
                 let t = tile.lock();
 
@@ -115,6 +127,16 @@ impl GameState {
                     canvas.copy(&temp, None, Rect::new(t.pos.x * 32, t.pos.y * 32, 32, 32));
                 }
             }
+
+            //Draw UI
+
+            // Start with the counter
+            let counter_spr = &self.get_sprite("digits").unwrap().lock();
+            let counter_tex = self.glass.get_texture(&counter_spr.name);
+
+            let time = &self.board.time.to_string();
+
+            
 
             canvas.present();
         });

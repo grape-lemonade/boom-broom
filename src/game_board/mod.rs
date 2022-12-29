@@ -1,4 +1,6 @@
-mod tile;
+pub mod tile;
+use std::fs;
+
 use parking_lot::FairMutex;
 
 use nanorand::{Rng, WyRand};
@@ -45,6 +47,53 @@ impl GameBoard {
         GameBoard {
             size,
             mine_count: mines,
+            tile_map,
+            time: 0,
+        }
+    }
+
+    pub fn from_test(size: Vec2D, dat: &str) -> Self {
+        let mut tile_map: Vec<FairMutex<Tile>> = Vec::new();
+        let mut mine_count = 0;
+
+        let mut y = 0;
+
+        // Something in this block of code causes a seg fault when compiling in mingw
+
+        // let data = dat.split('\n');
+        // for row in data {
+        //     for mut x in 0..size.x {
+        //         let byte = row.as_bytes()[x as usize];
+
+        //         let is_mine = match byte {
+        //             0x00 => {
+        //                 x += 1;
+        //                 Some(false)
+        //             }
+        //             0x01 => {
+        //                 x += 1;
+        //                 mine_count += 1;
+        //                 Some(true)
+        //             }
+        //             _ => None,
+        //         };
+
+        //         if is_mine.is_some() {
+        //             println!("Is mine: {:?}", is_mine.unwrap());
+
+        //             tile_map.push(FairMutex::new(Tile {
+        //                 pos: Vec2D { x, y },
+        //                 state: TileState::HIDDEN,
+        //                 is_mine: is_mine.unwrap(),
+        //             }))
+        //         }
+        //     }
+        //     y += 1;
+        // }
+
+        GameBoard {
+            size,
+            mine_count,
             tile_map,
             time: 0,
         }

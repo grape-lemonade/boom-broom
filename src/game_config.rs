@@ -10,11 +10,13 @@ pub struct GameConfig {
     pub mine_count: u16,
 
     pub assets: Vec<AssetPath>,
+
+    pub tests: Vec<AssetPath>,
 }
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct AssetPath {
-    name: String,
-    path: String,
+    pub name: String,
+    pub path: String,
 }
 impl AssetPath {
     pub fn to_tup(&self) -> (&str, &str) {

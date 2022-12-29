@@ -21,5 +21,5 @@ release-windows:
 	cargo build --target x86_64-pc-windows-gnu --release
 
 windows:
-	cargo build --target x86_64-pc-windows-gnu
+	cross build --target x86_64-pc-windows-gnu
 	
