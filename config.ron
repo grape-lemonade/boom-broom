@@ -31,13 +31,13 @@ GameConfig(
 
         // Ui assets
 
-        (name: "debug", path: "./data/images/debug.png")
-        (name: "digits", path: "./data/images/digits.png")
-        (name: "face_happy", path: "./data/images/face_happy.png")
-        (name: "face_lose", path: "./data/images/face_lose.png")
-        (name: "face_win", path: "./data/images/face_win.png")
-        (name: "test_1", path: "./data/images/test_1.png")
-        (name: "test_2", path: "./data/images/test_2.png")
-        (name: "test_3", path: "./data/images/Test_3.png")
+        (name: "debug", path: "./data/images/debug.png"),
+        (name: "digits", path: "./data/images/digits.png"),
+        (name: "face_happy", path: "./data/images/face_happy.png"),
+        (name: "face_lose", path: "./data/images/face_lose.png"),
+        (name: "face_win", path: "./data/images/face_win.png"),
+        (name: "test_1", path: "./data/images/test_1.png"),
+        (name: "test_2", path: "./data/images/test_2.png"),
+        (name: "test_3", path: "./data/images/Test_3.png"),
     ]
 )
